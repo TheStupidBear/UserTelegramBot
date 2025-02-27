@@ -53,12 +53,17 @@ async def echo_handler(client: Client, message: Message):
 
 
 
-@bot.on_message(filters.text)
+@bot.on_message(filters.channel)
 async def message_handler(client: Client, message: Message):
     chat_id = 1856009970
-    text = message.text.lower()
-    if any(item in text for item in travel_list) == True:
-        await client.send_message(chat_id=chat_id, text = f"{message.text}")
+    text_mess = message.text
+    if text_mess is None:
+        text_mess = message.caption.lower()
+    else:
+        text_mess = message.text.lower()
+
+    if any(item in text_mess for item in travel_list) == True:
+        await client.send_message(chat_id=chat_id, text = f"{text_mess}")
 
 #запуск бота
 bot.run()
